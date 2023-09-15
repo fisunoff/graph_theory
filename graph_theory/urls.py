@@ -25,4 +25,5 @@ urlpatterns = [
     path('register/', include('extended_user.urls'), name='signup'),
     path('users/', include('extended_user.urls')),
     path('reg/', SignUp.as_view(), name='reg'),
+    path('martor/', include('martor.urls')),
 ]
