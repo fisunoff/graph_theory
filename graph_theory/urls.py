@@ -24,7 +24,6 @@ from graph_theory import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('register/', include('extended_user.urls'), name='signup'),
     path('users/', include('extended_user.urls')),
     path('reg/', SignUp.as_view(), name='reg'),
     path('martor/', include('martor.urls')),
