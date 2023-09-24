@@ -30,10 +30,23 @@ class UserDetailView(DetailView):
         context = super(UserDetailView, self).get_context_data(**kwargs)
         user = User.objects.get(pk=self.request.user.id)
         profile_user = User.objects.get(pk=context['object'].id)
-        context['is_profile_staff'] = profile_user.groups.filter(name__in=['worker',]).exists()
+        context['is_profile_staff'] = profile_user.groups.filter(name__in=['worker', ]).exists()
         context['is_staff'] = user.groups.filter(name__in=['worker', ]).exists()
 
         return context
+
+
+class ProfileDetailView(UserDetailView):
+    def get_context_data(self, **kwargs):
+        context = super(ProfileDetailView, self).get_context_data(**kwargs)
+        user = User.objects.get(pk=self.request.user.id)
+        context['is_profile_staff'] = user.groups.filter(name__in=['worker', ]).exists()
+        context['is_staff'] = user.groups.filter(name__in=['worker', ]).exists()
+
+        return context
+
+    def get_object(self, queryset=None):
+        return self.request.user.profile
 
 
 class UserUpdateView(UpdateView):
