@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models import SET_NULL, CASCADE
 from django.utils.datetime_safe import datetime
@@ -79,3 +80,12 @@ class HomeWork(BaseUnit, models.Model):
 
     def __str__(self):
         return f"{self.name} пользователя {self.creator}"
+
+
+class RegOnCourse(models.Model):
+    intern = models.ForeignKey("extended_user.Profile", verbose_name="Студент", on_delete=models.RESTRICT,
+                               related_name="regs_by_student")
+    course_id = models.ForeignKey("Course", verbose_name="Курс", on_delete=models.RESTRICT,
+                                  related_name="regs_by_course")
+    rating = models.IntegerField("Обратная связь", null=True, blank=True, validators=[MinValueValidator(0),
+                                                                                      MaxValueValidator(5)])

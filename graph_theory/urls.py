@@ -26,6 +26,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('users/', include('extended_user.urls')),
     path('reg/', SignUp.as_view(), name='reg'),
+    path('course/', include('course.urls')),
     path('martor/', include('martor.urls')),
     path('accounts/profile/', ProfileDetailView.as_view(), name='self-profile-detail')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \

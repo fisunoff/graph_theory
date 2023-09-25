@@ -1,0 +1,23 @@
+{% include "base_create.html" with page_title='{{ title }}' %}
+
+
+{% block custom_js %}
+    <script>
+        let optionSelected = id_private.checked;
+        if (optionSelected === false) {
+            $('#id_password').parent().hide();
+          }
+        else {
+            $('#id_password').parent().show();
+        }
+        $('#id_private').change(function () {
+            let optionSelected = id_private.checked;
+            if (optionSelected === false) {
+                $('#id_password').parent().hide();
+              }
+            else {
+                $('#id_password').parent().show();
+            }
+    });
+    </script>
+{% endblock %}
