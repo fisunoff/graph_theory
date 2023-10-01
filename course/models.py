@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models import SET_NULL, CASCADE
+from django.urls import reverse_lazy
 from django.utils.datetime_safe import datetime
 from martor.models import MartorField
 
@@ -24,6 +25,9 @@ class Course(BaseUnit, models.Model):
 
     def __str__(self):
         return self.name or "Нет названия"
+
+    def get_absolute_url(self):
+        return reverse_lazy('course-detail', kwargs={'pk': self.pk})
 
 
 class Lesson(BaseUnit, models.Model):

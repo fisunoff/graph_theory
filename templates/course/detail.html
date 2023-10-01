@@ -1,0 +1,23 @@
+{% include "base.html" with page_title=course.name %}
+
+{% block container %}
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">{{ course }}</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Создатель курса</dt>
+                    <dd class="col-sm-9">{{ course.creator|default_if_none:"&#10060" }}</dd>
+                    <dt class="col-sm-3">Описание</dt>
+                    <dd class="col-sm-9">{{ course.description|default_if_none:"&#10060" }}</dd>
+                    {% if can_edit %}
+                        <a href="{% url 'course-update' course.pk %}" class="btn btn-primary">Редактировать</a>
+                    {% endif %}
+                </dl>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -17,11 +17,13 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 
 from extended_user.views import SignUp, ProfileDetailView
 from graph_theory import settings
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='/course/')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('users/', include('extended_user.urls')),

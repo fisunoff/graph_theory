@@ -3,7 +3,7 @@
 {% block container %}
     <div class="container mt-4">
         {% load render_table from django_tables2 %}
-        <h1>Курсы<a href="{% url 'courses-create' %}" class="btn btn-primary btn-lg">Создать</a></h1>
+        <h1>Курсы<a href="{% url 'course-create' %}" class="btn btn-primary btn-lg">Создать</a></h1>
         {% render_table table %}
     </div>
 {% endblock %}

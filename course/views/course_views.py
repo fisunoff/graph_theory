@@ -1,10 +1,9 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django_tables2 import SingleTableView
 from course.models import Course
 from course.tables import CourseTable
-from course.views.mixins import AddTitleFormMixin
-from funcs import group_required
+from course.views.mixins import AddTitleFormMixin, ProDetailView
 # Create your views here.
 
 
@@ -31,3 +30,18 @@ class CourseCreateView(AddTitleFormMixin, CreateView):
         for i in self.fields:
             initial_data[i] = self.request.GET.get(i)
         return initial_data
+
+
+class CourseDetailView(ProDetailView):
+    model = Course
+    template_name = 'course/detail.html'
+
+
+class CourseUpdateView(AddTitleFormMixin, UpdateView):
+    model = Course
+    template_name = 'course/create.html'
+
+    title = 'Редактирование курса'
+    editing = True
+
+    fields = ('name', 'description', 'private', 'password')
