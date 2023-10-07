@@ -42,6 +42,9 @@ class Lesson(BaseUnit, models.Model):
     def __str__(self):
         return self.name or "Нет названия"
 
+    def get_absolute_url(self):
+        return reverse_lazy('lesson-detail', kwargs={'pk': self.pk})
+
 
 class Step(BaseUnit, models.Model):  # шаги занятия
     name = models.CharField(max_length=1024, null=True)

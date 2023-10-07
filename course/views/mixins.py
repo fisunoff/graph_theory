@@ -1,5 +1,6 @@
 from django.views.generic import DetailView
 from django.views.generic.edit import FormMixin
+from django_tables2 import SingleTableMixin
 
 
 class AddTitleFormMixin(FormMixin):
@@ -23,3 +24,11 @@ class ProDetailView(DetailView):
             can_edit = self.request.user.pk == self.object.creator_id or self.request.user.is_superuser
         kwargs['can_edit'] = can_edit
         return super().get_context_data(**kwargs)
+
+
+class DetailWithSingleTable(SingleTableMixin, ProDetailView):
+    object_list = None
+    table_model = None
+
+    def get_table_data(self):
+        return self.table_model.objects.all()

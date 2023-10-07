@@ -1,0 +1,24 @@
+{% include "base.html" with page_title=course.name %}
+
+{% block container %}
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">{{ lesson }}</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Создатель урока</dt>
+                    <dd class="col-sm-9">{{ lesson.creator|default_if_none:"&#10060" }}</dd>
+                    <dt class="col-sm-3">Описание</dt>
+                    <dd class="col-sm-9">{{ lesson.description|default_if_none:"&#10060" }}</dd>
+                    {% if can_edit %}
+                        <a href="{% url 'lesson-update' lesson.pk %}" class="btn btn-primary">Редактировать</a>
+                    {% endif %}
+                    <a href="{% url 'course-detail' lesson.course.pk %}" class="btn btn-success">К курсу</a>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

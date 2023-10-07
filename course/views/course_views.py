@@ -1,15 +1,15 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from django_tables2 import SingleTableView
-from course.models import Course
-from course.tables import CourseTable
-from course.views.mixins import AddTitleFormMixin, ProDetailView
+from course.models import Course, Lesson
+from course.tables import CourseTable, LessonTable
+from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable
 # Create your views here.
 
 
 class CourseListView(SingleTableView):
     model = Course
-    template_name = 'course/list.html'
+    template_name = 'base_list.html'
     table_class = CourseTable
 
     def get_queryset(self):
@@ -32,9 +32,16 @@ class CourseCreateView(AddTitleFormMixin, CreateView):
         return initial_data
 
 
-class CourseDetailView(ProDetailView):
+class CourseDetailView(DetailWithSingleTable):
     model = Course
+    table_model = Lesson
+
+    table_class = LessonTable
     template_name = 'course/detail.html'
+
+    def get_table_data(self):
+        course_id = self.object.id
+        return self.table_model.objects.filter(course=course_id)
 
 
 class CourseUpdateView(AddTitleFormMixin, UpdateView):
