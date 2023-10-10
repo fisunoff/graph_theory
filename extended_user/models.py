@@ -16,7 +16,6 @@ class Profile(models.Model):
     university = models.CharField(verbose_name="Место учебы", max_length=200, blank=True, null=True)
     communication = models.CharField(verbose_name="Другие способы коммуникации", max_length=200, blank=True, null=True)
     time_create = models.DateTimeField(verbose_name="Дата создания учетной записи", default=timezone.now)
-    photo = models.ImageField(verbose_name="Фото профиля", blank=True, null=True)
 
     def __str__(self):
         return f"{self.surname} {self.name}{' ' + self.patronymic if self.patronymic else ''}"

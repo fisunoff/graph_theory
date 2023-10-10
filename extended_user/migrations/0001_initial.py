@@ -26,7 +26,6 @@ class Migration(migrations.Migration):
                 ('university', models.CharField(blank=True, max_length=200, null=True, verbose_name='Место учебы')),
                 ('communication', models.CharField(blank=True, max_length=200, null=True, verbose_name='Другие способы коммуникации')),
                 ('time_create', models.DateTimeField(default=django.utils.timezone.now, verbose_name='Дата создания учетной записи')),
-                ('photo', models.ImageField(blank=True, null=True, upload_to='', verbose_name='Фото профиля')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
