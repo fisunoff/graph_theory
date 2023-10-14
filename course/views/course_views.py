@@ -19,7 +19,7 @@ class CourseListView(SingleTableView):
 class CourseCreateView(AddTitleFormMixin, CreateView):
     model = Course
     template_name = 'course/create.html'
-    success_url = reverse_lazy('courses-list')
+    success_url = reverse_lazy('course-list')
 
     fields = ('name', 'description', 'private', 'password')
 

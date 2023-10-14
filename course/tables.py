@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from course.models import Course, Lesson
+from course.models import Course, Lesson, Step
 
 
 class CourseTable(tables.Table):
@@ -18,5 +18,15 @@ class LessonTable(tables.Table):
 
     class Meta:
         model = Lesson
+        template_name = "django_tables2/bootstrap.html"
+        fields = ('details', 'name',)
+
+
+class StepTable(tables.Table):
+    details = tables.TemplateColumn('<a href="{% url \'step-detail\' record.id %}">&#128203;</a>',
+                                    orderable=False, verbose_name="")
+
+    class Meta:
+        model = Step
         template_name = "django_tables2/bootstrap.html"
         fields = ('details', 'name',)

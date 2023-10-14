@@ -1,0 +1,43 @@
+{% include "base.html" with page_title='{{ title }}' %}
+
+{% load static %}
+{% load martortags %}
+
+{% block custom_css %}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+    <link href="{% static 'martor/css/martor.bootstrap.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+{% endblock %}
+
+
+{% block container %}
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">{{ title }}</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button type="submit" class="btn btn-success">
+                        {% if editing %}
+                            Сохранить
+                        {% else %}
+                            Создать
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+    <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>
+  <script>
+    $('.martor-preview pre').each(function(i, block){
+        hljs.highlightBlock(block);
+    });
+  </script>
+{% endblock %}
