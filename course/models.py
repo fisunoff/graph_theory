@@ -16,7 +16,7 @@ class Course(BaseUnit, models.Model):
     name = models.CharField(max_length=1024, null=True)
     creator = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='courses_by_creator')
     last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='courses_by_last_editor')
-    time_create = models.DateTimeField(default=datetime.now, blank=True)
+    time_create = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Время создания')
     time_edit = models.DateTimeField(default=datetime.now, blank=True)
     description = models.CharField(max_length=1024, default="Описание не заполнено")
     editors = models.ManyToManyField(to=Profile)
