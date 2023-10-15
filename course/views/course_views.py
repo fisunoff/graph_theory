@@ -3,8 +3,7 @@ from django.views.generic import CreateView, UpdateView
 from django_tables2 import SingleTableView
 from course.models import Course, Lesson
 from course.tables import CourseTable, LessonTable
-from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable
-# Create your views here.
+from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable, SaveEditorMixin
 
 
 class CourseListView(SingleTableView):
@@ -16,7 +15,7 @@ class CourseListView(SingleTableView):
         return Course.objects.all()
 
 
-class CourseCreateView(AddTitleFormMixin, CreateView):
+class CourseCreateView(SaveEditorMixin, AddTitleFormMixin, CreateView):
     model = Course
     template_name = 'course/create.html'
     success_url = reverse_lazy('course-list')

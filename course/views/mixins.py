@@ -1,6 +1,9 @@
+from django.http import HttpResponseRedirect
 from django.views.generic import DetailView
 from django.views.generic.edit import FormMixin
 from django_tables2 import SingleTableMixin
+
+from extended_user.models import Profile
 
 
 class AddTitleFormMixin(FormMixin):
@@ -32,3 +35,14 @@ class DetailWithSingleTable(SingleTableMixin, ProDetailView):
 
     def get_table_data(self):
         return self.table_model.objects.all()
+
+
+class SaveEditorMixin:
+    def form_valid(self, form):
+        self.object = form.save()
+        user_profile = Profile.objects.get(id=self.request.user.id)
+        self.object.last_editor = user_profile
+        if not self.object.creator:
+            self.object.creator = user_profile
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())

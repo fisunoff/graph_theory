@@ -2,10 +2,10 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
 from course.models import Step
-from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable, ProDetailView
+from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable, ProDetailView, SaveEditorMixin
 
 
-class StepCreateView(AddTitleFormMixin, CreateView):
+class StepCreateView(SaveEditorMixin, AddTitleFormMixin, CreateView):
     model = Step
     template_name = 'step/create.html'
     success_url = reverse_lazy('course-list')
@@ -17,6 +17,7 @@ class StepCreateView(AddTitleFormMixin, CreateView):
         initial_data = {}
         for i in self.fields:
             initial_data[i] = self.request.GET.get(i)
+            initial_data['lesson'] = self.kwargs['from']
         return initial_data
 
 

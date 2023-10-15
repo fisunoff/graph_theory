@@ -14,6 +14,7 @@
                     <dd class="col-sm-9">{{ course.description|default_if_none:"&#10060" }}</dd>
                     {% if can_edit %}
                         <a href="{% url 'course-update' course.pk %}" class="btn btn-primary">Редактировать</a>
+                        <a href="{% url 'lesson-create' course.pk %}" class="btn btn-primary">Добавить раздел</a>
                     {% endif %}
                 </dl>
             </div>

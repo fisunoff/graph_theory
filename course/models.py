@@ -59,6 +59,9 @@ class Step(BaseUnit, models.Model):  # шаги занятия
     def __str__(self):
         return self.name or "Нет названия"
 
+    def get_absolute_url(self):
+        return reverse_lazy('step-detail', kwargs={'pk': self.pk})
+
 
 class Task(BaseUnit, models.Model):  # в одном занятии может быть несколько заданий
     name = models.CharField(max_length=1024, null=True)

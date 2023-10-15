@@ -11,6 +11,7 @@
                 <dl class="row">
                     <dt class="col-sm-3">Создатель шага</dt>
                     <dd class="col-sm-9">{{ object.creator|default_if_none:"&#10060" }}</dd>
+                    <a href="{% url 'lesson-detail' object.lesson.pk %}" class="btn btn-success">К занятию</a>
                 </dl>
             </div>
         </div>
