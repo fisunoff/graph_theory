@@ -38,10 +38,13 @@ class DetailWithSingleTable(SingleTableMixin, ProDetailView):
 
 
 class SaveEditorMixin:
+    save_creator_only = False
+
     def form_valid(self, form):
         self.object = form.save()
         user_profile = Profile.objects.get(id=self.request.user.id)
-        self.object.last_editor = user_profile
+        if not self.save_creator_only:
+            self.object.last_editor = user_profile
         if not self.object.creator:
             self.object.creator = user_profile
         self.object.save()

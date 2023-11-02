@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'extended_user',
     'course',
+    'builder',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'graph_theory.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [BASE_DIR / 'templates', BASE_DIR / 'media']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
