@@ -25,7 +25,7 @@ class GraphCreateView(SaveEditorMixin, AddTitleFormMixin, CreateView):
 
     fields = ('name', 'directed', 'initial_data')
 
-    title = "Добавление урока"
+    title = "Построение графа"
 
     def get_success_url(self):
         return reverse_lazy('graph-detail', kwargs={'pk': self.object.id})
