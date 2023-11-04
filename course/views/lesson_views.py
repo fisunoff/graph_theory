@@ -8,7 +8,6 @@ from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable, SaveEd
 class LessonCreateView(SaveEditorMixin, AddTitleFormMixin, CreateView):
     model = Lesson
     template_name = 'base_create.html'
-    success_url = reverse_lazy('course-list')
 
     fields = ('name', 'description', 'course')
 
@@ -20,6 +19,9 @@ class LessonCreateView(SaveEditorMixin, AddTitleFormMixin, CreateView):
             initial_data[i] = self.request.GET.get(i)
         initial_data['course'] = self.kwargs['from']
         return initial_data
+
+    def get_success_url(self):
+        return reverse_lazy('lesson-detail', kwargs={'pk': self.object.id})
 
 
 class LessonDetailView(DetailWithSingleTable):

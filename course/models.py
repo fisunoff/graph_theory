@@ -13,15 +13,17 @@ class BaseUnit:
 
 
 class Course(BaseUnit, models.Model):
-    name = models.CharField(max_length=1024, null=True)
-    creator = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='courses_by_creator')
-    last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='courses_by_last_editor')
+    name = models.CharField(max_length=1024, null=True, verbose_name='Название')
+    creator = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='courses_by_creator',
+                                verbose_name='Автор')
+    last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='courses_by_last_editor',
+                                    verbose_name='Последний редактор')
     time_create = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Время создания')
-    time_edit = models.DateTimeField(default=datetime.now, blank=True)
-    description = models.CharField(max_length=1024, default="Описание не заполнено")
-    editors = models.ManyToManyField(to=Profile)
-    private = models.BooleanField(default=False)
-    password = models.CharField(max_length=1024, blank=True, null=True)
+    time_edit = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Последнее редактирование')
+    description = models.CharField(max_length=1024, default="Описание не заполнено", verbose_name='Описание')
+    editors = models.ManyToManyField(to=Profile, verbose_name='Редакторы')
+    private = models.BooleanField(default=False, verbose_name='С ограниченным доступом')
+    password = models.CharField(max_length=1024, blank=True, null=True, verbose_name='Пароль')
 
     def __str__(self):
         return self.name or "Нет названия"
@@ -31,13 +33,15 @@ class Course(BaseUnit, models.Model):
 
 
 class Lesson(BaseUnit, models.Model):
-    name = models.CharField(max_length=1024, null=True)
-    creator = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='lessons_by_creator')
-    last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='lessons_by_last_editor')
-    time_create = models.DateTimeField(default=datetime.now, blank=True)
-    time_edit = models.DateTimeField(default=datetime.now, blank=True)
-    description = models.CharField(max_length=1024, default="Описание не заполнено")
-    course = models.ForeignKey(to=Course, on_delete=CASCADE, related_name='lessons')
+    name = models.CharField(max_length=1024, null=True, verbose_name='Название')
+    creator = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='lessons_by_creator',
+                                verbose_name='Автор')
+    last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='lessons_by_last_editor',
+                                    verbose_name='Последний редактор')
+    time_create = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Время создания')
+    time_edit = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Последнее редактирование')
+    description = models.CharField(max_length=1024, default="Описание не заполнено", verbose_name='Описание')
+    course = models.ForeignKey(to=Course, on_delete=CASCADE, related_name='lessons', verbose_name='Курс')
 
     def __str__(self):
         return self.name or "Нет названия"
@@ -47,14 +51,16 @@ class Lesson(BaseUnit, models.Model):
 
 
 class Step(BaseUnit, models.Model):  # шаги занятия
-    name = models.CharField(max_length=1024, null=True)
-    creator = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='steps_by_creator')
-    last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='steps_by_last_editor')
-    time_create = models.DateTimeField(default=datetime.now, blank=True)
-    time_edit = models.DateTimeField(default=datetime.now, blank=True)
-    description = models.CharField(max_length=1024, default="Описание не заполнено")
-    lesson = models.ForeignKey(to=Lesson, on_delete=CASCADE, related_name='steps')
-    data = MartorField()
+    name = models.CharField(max_length=1024, null=True, verbose_name='Название')
+    creator = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='steps_by_creator',
+                                verbose_name='Автор')
+    last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='steps_by_last_editor',
+                                    verbose_name='Последний редактор')
+    time_create = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Время создания')
+    time_edit = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Последнее редактирование')
+    description = models.CharField(max_length=1024, default="Описание не заполнено", verbose_name='Описание')
+    lesson = models.ForeignKey(to=Lesson, on_delete=CASCADE, related_name='steps', verbose_name='Занятие')
+    data = MartorField(verbose_name='Материалы шага')
 
     def __str__(self):
         return self.name or "Нет названия"
@@ -64,29 +70,33 @@ class Step(BaseUnit, models.Model):  # шаги занятия
 
 
 class Task(BaseUnit, models.Model):  # в одном занятии может быть несколько заданий
-    name = models.CharField(max_length=1024, null=True)
-    creator = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='tasks_by_creator')
-    last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='tasks_by_last_editor')
-    time_create = models.DateTimeField(default=datetime.now, blank=True)
-    time_edit = models.DateTimeField(default=datetime.now, blank=True)
-    description = models.CharField(max_length=1024, default="Описание не заполнено")
-    step = models.ForeignKey(to=Step, on_delete=CASCADE, related_name='tasks')
-    max_mark = models.IntegerField()
-    weight = models.IntegerField(default=10)
+    name = models.CharField(max_length=1024, null=True, verbose_name='Название')
+    creator = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='tasks_by_creator',
+                                verbose_name='Автор')
+    last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='tasks_by_last_editor',
+                                    verbose_name='Последний редактор')
+    time_create = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Время создания')
+    time_edit = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Последнее редактирование')
+    description = models.CharField(max_length=1024, default="Описание не заполнено", verbose_name='Описание')
+    step = models.ForeignKey(to=Step, on_delete=CASCADE, related_name='tasks', verbose_name='Шаг')
+    max_mark = models.IntegerField(verbose_name='Максимальная оценка')
+    weight = models.IntegerField(default=10, verbose_name='Вес оценки')
 
     def __str__(self):
         return self.name or "Нет названия"
 
 
 class HomeWork(BaseUnit, models.Model):
-    name = models.CharField(max_length=1024, null=True)
-    creator = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='homeworks_by_creator')
-    last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='homeworks_by_last_editor')
-    time_create = models.DateTimeField(default=datetime.now, blank=True)
-    time_edit = models.DateTimeField(default=datetime.now, blank=True)
-    description = models.CharField(max_length=1024, default="Описание не заполнено")
-    task = models.ForeignKey(to=Step, on_delete=SET_NULL, null=True, related_name='homeworks')
-    mark = models.IntegerField()
+    name = models.CharField(max_length=1024, null=True, verbose_name='Название')
+    creator = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='homeworks_by_creator',
+                                verbose_name='Автор')
+    last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='homeworks_by_last_editor',
+                                    verbose_name='Последний редактор')
+    time_create = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Время создания')
+    time_edit = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Последнее редактирование')
+    description = models.CharField(max_length=1024, default="Описание не заполнено", verbose_name='Описание')
+    task = models.ForeignKey(to=Step, on_delete=SET_NULL, null=True, related_name='homeworks', verbose_name='Задание')
+    mark = models.IntegerField(verbose_name='Оценка')
 
     def __str__(self):
         return f"{self.name} пользователя {self.creator}"

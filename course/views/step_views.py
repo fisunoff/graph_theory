@@ -20,6 +20,9 @@ class StepCreateView(SaveEditorMixin, AddTitleFormMixin, CreateView):
             initial_data['lesson'] = self.kwargs['from']
         return initial_data
 
+    def get_success_url(self):
+        return reverse_lazy('lesson-detail', kwargs={'pk': self.object.lesson.id})
+
 
 class StepDetailView(ProDetailView):
     model = Step
