@@ -21,3 +21,6 @@ class Graph(models.Model):
     @property
     def get_absolute_file_upload_url(self):
         return self.graph_html.name
+
+    def __str__(self):
+        return f"{self.name} (вершин: {self.nodes_count}, {self.creator})"

@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.utils.datetime_safe import datetime
 from martor.models import MartorField
 
+from builder.models import Graph
 from extended_user.models import Profile
 
 
@@ -61,6 +62,7 @@ class Step(BaseUnit, models.Model):  # шаги занятия
     description = models.CharField(max_length=1024, default="Описание не заполнено", verbose_name='Описание')
     lesson = models.ForeignKey(to=Lesson, on_delete=CASCADE, related_name='steps', verbose_name='Занятие')
     data = MartorField(verbose_name='Материалы шага')
+    graph = models.ForeignKey(to=Graph, null=True, blank=True, on_delete=SET_NULL, verbose_name='Иллюстрация к шагу')
 
     def __str__(self):
         return self.name or "Нет названия"

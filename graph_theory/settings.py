@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_tables2',
     'martor',
+    'django_select2',
 
     'extended_user',
     'course',

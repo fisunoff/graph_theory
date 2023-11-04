@@ -10,7 +10,7 @@ class StepCreateView(SaveEditorMixin, AddTitleFormMixin, CreateView):
     template_name = 'step/create.html'
     success_url = reverse_lazy('course-list')
 
-    fields = ('name', 'lesson', 'data')
+    fields = ('name', 'lesson', 'data', 'graph')
     title = "Добавление шага"
 
     def get_initial(self):

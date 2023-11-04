@@ -20,6 +20,9 @@
                 </dl>
                 <a href="{% url 'lesson-detail' object.lesson.pk %}" class="btn btn-success">К занятию</a>
             </div>
+        {% if object.graph %}
+            {% include object.graph.get_absolute_file_upload_url %}
+        {% endif %}
         </div>
     {{ object.data|safe_markdown }}
     </div>
