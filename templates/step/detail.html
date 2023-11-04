@@ -10,9 +10,15 @@
             <div class="card-body">
                 <dl class="row">
                     <dt class="col-sm-3">Создатель шага</dt>
-                    <dd class="col-sm-9">{{ object.creator|default_if_none:"&#10060" }}</dd>
-                    <a href="{% url 'lesson-detail' object.lesson.pk %}" class="btn btn-success">К занятию</a>
+                    <dd class="col-sm-9">
+                        {% if object.creator_id %}
+                            <a href="{% url 'profile-detail' pk=object.creator_id %}">{{ object.creator|default_if_none:"&#10060" }}</a>
+                        {% else %}
+                            {{ object.creator|default_if_none:"&#10060" }}
+                        {% endif %}
+                    </dd>
                 </dl>
+                <a href="{% url 'lesson-detail' object.lesson.pk %}" class="btn btn-success">К занятию</a>
             </div>
         </div>
     {{ object.data|safe_markdown }}

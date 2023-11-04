@@ -9,7 +9,13 @@
             <div class="card-body">
                 <dl class="row">
                     <dt class="col-sm-3">Создатель курса</dt>
-                    <dd class="col-sm-9">{{ course.creator|default_if_none:"&#10060" }}</dd>
+                    <dd class="col-sm-9">
+                        {% if course.creator_id %}
+                            <a href="{% url 'profile-detail' pk=course.creator_id %}">{{ course.creator|default_if_none:"&#10060" }}</a>
+                        {% else %}
+                            {{ course.creator|default_if_none:"&#10060" }}
+                        {% endif %}
+                    </dd>
                     <dt class="col-sm-3">Описание</dt>
                     <dd class="col-sm-9">{{ course.description|default_if_none:"&#10060" }}</dd>
                     {% if can_edit %}
