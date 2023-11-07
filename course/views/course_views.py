@@ -1,9 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from django_tables2 import SingleTableView
 from course.models import Course, Lesson
 from course.tables import CourseTable, LessonTable
 from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable, SaveEditorMixin
+from funcs import OnlyCreatorMixin
 
 
 class CourseListView(SingleTableView):
@@ -14,8 +16,13 @@ class CourseListView(SingleTableView):
     def get_queryset(self):
         return Course.objects.all()
 
+    def get_context_data(self, **kwargs):
+        can_edit = self.request.user.is_authenticated
+        kwargs['can_edit'] = can_edit
+        return super().get_context_data(**kwargs)
 
-class CourseCreateView(SaveEditorMixin, AddTitleFormMixin, CreateView):
+
+class CourseCreateView(LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, CreateView):
     model = Course
     template_name = 'course/create.html'
     success_url = reverse_lazy('course-list')
@@ -43,7 +50,7 @@ class CourseDetailView(DetailWithSingleTable):
         return self.table_model.objects.filter(course=course_id)
 
 
-class CourseUpdateView(AddTitleFormMixin, UpdateView):
+class CourseUpdateView(OnlyCreatorMixin, LoginRequiredMixin, AddTitleFormMixin, UpdateView):
     model = Course
     template_name = 'course/create.html'
 

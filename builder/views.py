@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.files import File
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, CreateView
@@ -18,7 +19,7 @@ class GraphListView(SingleTableView):
         return self.model.objects.all()
 
 
-class GraphCreateView(SaveEditorMixin, AddTitleFormMixin, CreateView):
+class GraphCreateView(LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, CreateView):
     model = Graph
     template_name = 'base_create.html'
     save_creator_only = True

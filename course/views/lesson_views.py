@@ -1,11 +1,13 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from course.models import Lesson, Step
 from course.tables import StepTable
 from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable, SaveEditorMixin
+from funcs import OnlyCreatorMixin
 
 
-class LessonCreateView(SaveEditorMixin, AddTitleFormMixin, CreateView):
+class LessonCreateView(LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, CreateView):
     model = Lesson
     template_name = 'base_create.html'
 
@@ -36,7 +38,7 @@ class LessonDetailView(DetailWithSingleTable):
         return self.table_model.objects.filter(lesson=lesson)
 
 
-class LessonUpdateView(AddTitleFormMixin, UpdateView):
+class LessonUpdateView(OnlyCreatorMixin, LoginRequiredMixin, AddTitleFormMixin, UpdateView):
     model = Lesson
     template_name = 'base_create.html'
 

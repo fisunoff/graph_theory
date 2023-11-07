@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
@@ -5,7 +6,7 @@ from course.models import Step
 from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable, ProDetailView, SaveEditorMixin
 
 
-class StepCreateView(SaveEditorMixin, AddTitleFormMixin, CreateView):
+class StepCreateView(LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, CreateView):
     model = Step
     template_name = 'step/create.html'
     success_url = reverse_lazy('course-list')

@@ -1,12 +1,11 @@
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 
-def group_required(*group_names):
-    """Requires user membership in at least one of the groups passed in."""
-    def in_groups(u):
-        if u.is_authenticated():
-            if bool(u.groups.filter(name__in=group_names)) | u.is_superuser:
-                return True
+class OnlyCreatorMixin(UserPassesTestMixin):
+    def test_func(self):
+
+        if self.request.user.id == self.model.objects.get(pk=int(self.kwargs['pk'])).creator_id or \
+                self.request.user.is_superuser or self.request.user.is_staff:
+            return True
         return False
-
-    return user_passes_test(in_groups, login_url='403')
