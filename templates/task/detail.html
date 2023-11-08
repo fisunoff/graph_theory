@@ -1,15 +1,14 @@
 {% include "base.html" with page_title=object.name %}
 
 {% block container %}
-    {% load martortags %}
     <div class="container mt-4">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title">{{ step }}</h5>
+                <h5 class="card-title">{{ object }}</h5>
             </div>
             <div class="card-body">
                 <dl class="row">
-                    <dt class="col-sm-3">Создатель шага</dt>
+                    <dt class="col-sm-3">Создатель задания</dt>
                     <dd class="col-sm-9">
                         {% if object.creator_id %}
                             <a href="{% url 'profile-detail' pk=object.creator_id %}">{{ object.creator|default_if_none:"&#10060" }}</a>
@@ -20,19 +19,12 @@
                     <dt class="col-sm-3">Описание</dt>
                     <dd class="col-sm-9">{{ object.description|default_if_none:"&#10060" }}</dd>
                 </dl>
-                <a href="{% url 'lesson-detail' object.lesson.pk %}" class="btn btn-success">К занятию</a>
-                {% if can_edit %}
-                    <a href="{% url 'task-create' object.pk %}" class="btn btn-primary">Добавить задание</a>
-                {% endif %}
+                <a href="{% url 'step-detail' object.step.pk %}" class="btn btn-success">К шагу</a>
             </div>
         {% if object.graph %}
             {% include object.graph.get_absolute_file_upload_url %}
         {% endif %}
         </div>
-        {{ object.data|safe_markdown }}
-        {% load render_table from django_tables2 %}
-        <h1>Задания к шагу</h1>
-        {% render_table table %}
     </div>
 
 {% endblock %}

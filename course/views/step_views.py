@@ -2,14 +2,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
-from course.models import Step
+from course.models import Step, Task
+from course.tables import TaskTable
 from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable, ProDetailView, SaveEditorMixin
 
 
 class StepCreateView(LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, CreateView):
     model = Step
     template_name = 'step/create.html'
-    success_url = reverse_lazy('course-list')
 
     fields = ('name', 'lesson', 'data', 'graph')
     title = "Добавление шага"
@@ -25,16 +25,20 @@ class StepCreateView(LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, Cre
         return reverse_lazy('lesson-detail', kwargs={'pk': self.object.lesson.id})
 
 
-class StepDetailView(ProDetailView):
+class StepDetailView(DetailWithSingleTable):
     model = Step
     template_name = 'step/detail.html'
 
+    table_model = Task
+    table_class = TaskTable
 
-# class LessonUpdateView(AddTitleFormMixin, UpdateView):
-#     model = Lesson
-#     template_name = 'base_create.html'
-#
-#     title = 'Редактирование урока'
-#     editing = True
-#
-#     fields = ('name', 'description')
+    def get_table_data(self):
+        step = self.object.id
+        return self.table_model.objects.filter(step=step)
+
+    def get_table_kwargs(self):
+        kwargs = {'exclude': ('answer_count', )}
+        if self.request.user in (self.object.creator, self.object.last_editor) \
+            or self.request.user.is_superuser:
+            kwargs['exclude'] = ()
+        return kwargs

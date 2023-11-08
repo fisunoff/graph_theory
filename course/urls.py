@@ -3,6 +3,7 @@ from django.urls import path
 from course.views.course_views import CourseListView, CourseCreateView, CourseDetailView, CourseUpdateView
 from course.views.lesson_views import LessonCreateView, LessonDetailView, LessonUpdateView
 from course.views.step_views import StepCreateView, StepDetailView
+from course.views.task_views import TaskCreateView, TaskDetailView
 
 urlpatterns = [
     path('', CourseListView.as_view(), name='course-list'),
@@ -14,4 +15,6 @@ urlpatterns = [
     path('lesson/<int:pk>/update/', LessonUpdateView.as_view(), name='lesson-update'),
     path('step/create/<int:from>/', StepCreateView.as_view(), name='step-create'),
     path('step/<int:pk>/', StepDetailView.as_view(), name='step-detail'),
+    path('task/create/<int:from>/', TaskCreateView.as_view(), name='task-create'),
+    path('task/<int:pk>/', TaskDetailView.as_view(), name='task-detail'),
 ]

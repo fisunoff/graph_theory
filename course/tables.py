@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from course.models import Course, Lesson, Step
+from course.models import Course, Lesson, Step, Task
 
 
 class CourseTable(tables.Table):
@@ -30,3 +30,15 @@ class StepTable(tables.Table):
         model = Step
         template_name = "django_tables2/bootstrap.html"
         fields = ('details', 'name',)
+
+
+class TaskTable(tables.Table):
+    details = tables.TemplateColumn('<a href="{% url \'task-detail\' record.id %}">&#128203;</a>',
+                                    orderable=False, verbose_name="")
+
+    answer_count = tables.Column(orderable=False, verbose_name="Решения")
+
+    class Meta:
+        model = Task
+        template_name = "django_tables2/bootstrap.html"
+        fields = ('details', 'name', 'weight', 'answer_count')
