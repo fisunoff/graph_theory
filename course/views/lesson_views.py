@@ -4,10 +4,10 @@ from django.views.generic import CreateView, UpdateView
 from course.models import Lesson, Step
 from course.tables import StepTable
 from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable, SaveEditorMixin
-from funcs import OnlyCreatorMixin
+from funcs import OnlyCreatorMixin, OnlyParentCreatorMixin
 
 
-class LessonCreateView(LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, CreateView):
+class LessonCreateView(OnlyParentCreatorMixin, LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, CreateView):
     model = Lesson
     template_name = 'base_create.html'
 

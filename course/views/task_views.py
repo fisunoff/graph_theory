@@ -2,11 +2,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
-from course.models import Task
+from course.models import Task, HomeWork
+from course.tables import HomeWorkTable
 from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable, ProDetailView, SaveEditorMixin
+from funcs import OnlyParentCreatorMixin
 
 
-class TaskCreateView(LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, CreateView):
+class TaskCreateView(OnlyParentCreatorMixin, LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, CreateView):
     model = Task
     template_name = 'task/create.html'
 
@@ -24,7 +26,27 @@ class TaskCreateView(LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, Cre
         return reverse_lazy('step-detail', kwargs={'pk': self.object.step.id})
 
 
-class TaskDetailView(ProDetailView):
+class TaskDetailView(DetailWithSingleTable):
     model = Task
     template_name = 'task/detail.html'
 
+    table_model = HomeWork
+    table_class = HomeWorkTable
+
+    def get_table_data(self):
+        task = self.object.id
+        task_obj = Task.objects.get(pk=task)
+        if not self.request.user.is_authenticated:
+            return self.table_model.objects.none()
+        if self.request.user.profile == task_obj.creator:
+            return self.table_model.objects.filter(task_id=task)
+        else:
+            return self.table_model.objects.filter(task_id=task, creator=self.request.user.profile)
+
+    def get_table_kwargs(self):
+        kwargs = {}
+        if self.request.user.is_authenticated:
+            if self.request.user.profile in (self.object.creator, self.object.last_editor) \
+                    or self.request.user.is_superuser:
+                kwargs['exclude'] = ()
+        return kwargs

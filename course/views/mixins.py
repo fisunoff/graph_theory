@@ -24,7 +24,7 @@ class ProDetailView(DetailView):
         kwargs['title'] = self.title or "Нет названия"
         can_edit = False
         if self.request.user.is_authenticated:
-            can_edit = self.request.user.pk == self.object.creator_id or self.request.user.is_superuser
+            can_edit = self.request.user.profile.pk == self.object.creator_id or self.request.user.is_superuser
         kwargs['can_edit'] = can_edit
         return super().get_context_data(**kwargs)
 
@@ -42,7 +42,7 @@ class SaveEditorMixin:
 
     def form_valid(self, form):
         self.object = form.save()
-        user_profile = Profile.objects.get(id=self.request.user.id)
+        user_profile = Profile.objects.get(id=self.request.user.profile.id)
         if not self.save_creator_only:
             self.object.last_editor = user_profile
         if not self.object.creator:

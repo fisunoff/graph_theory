@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from course.models import Course, Lesson, Step, Task
+from course.models import Course, Lesson, Step, Task, HomeWork
 
 
 class CourseTable(tables.Table):
@@ -42,3 +42,20 @@ class TaskTable(tables.Table):
         model = Task
         template_name = "django_tables2/bootstrap.html"
         fields = ('details', 'name', 'weight', 'answer_count')
+
+
+class HomeWorkTable(tables.Table):
+    details = tables.TemplateColumn('<a href="{% url \'homework-detail\' record.id %}">&#128203;</a>',
+                                    orderable=False, verbose_name="", attrs={"tf": {"bgcolor": "red"}})
+
+    class Meta:
+        model = HomeWork
+        template_name = "django_tables2/bootstrap5.html"
+        fields = ('details', 'name', 'mark')
+        # row_attrs = {
+        #     'background-color': lambda record: '#f2dede' if record.mark is None else '008000'
+        # }
+
+        row_attrs = {
+            'style': lambda record: f"""background:{('success' if record.mark is None else 'green')}"""
+        }

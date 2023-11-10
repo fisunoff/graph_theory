@@ -5,9 +5,10 @@ from django.views.generic import CreateView, UpdateView
 from course.models import Step, Task
 from course.tables import TaskTable
 from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable, ProDetailView, SaveEditorMixin
+from funcs import OnlyParentCreatorMixin
 
 
-class StepCreateView(LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, CreateView):
+class StepCreateView(OnlyParentCreatorMixin, LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, CreateView):
     model = Step
     template_name = 'step/create.html'
 
@@ -38,7 +39,8 @@ class StepDetailView(DetailWithSingleTable):
 
     def get_table_kwargs(self):
         kwargs = {'exclude': ('answer_count', )}
-        if self.request.user in (self.object.creator, self.object.last_editor) \
-            or self.request.user.is_superuser:
-            kwargs['exclude'] = ()
+        if self.request.user.is_authenticated:
+            if self.request.user.profile in (self.object.creator, self.object.last_editor) \
+                or self.request.user.is_superuser:
+                kwargs['exclude'] = ()
         return kwargs

@@ -32,6 +32,9 @@ class Course(BaseUnit, models.Model):
     def get_absolute_url(self):
         return reverse_lazy('course-detail', kwargs={'pk': self.pk})
 
+    def is_parent_creator(self, user_pk):
+        raise NotImplementedError
+
 
 class Lesson(BaseUnit, models.Model):
     name = models.CharField(max_length=1024, null=True, verbose_name='Название')
@@ -49,6 +52,9 @@ class Lesson(BaseUnit, models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy('lesson-detail', kwargs={'pk': self.pk})
+
+    def is_parent_creator(self, user_pk):
+        return self.creator_id == user_pk
 
 
 class Step(BaseUnit, models.Model):  # шаги занятия
@@ -69,6 +75,9 @@ class Step(BaseUnit, models.Model):  # шаги занятия
 
     def get_absolute_url(self):
         return reverse_lazy('step-detail', kwargs={'pk': self.pk})
+
+    def is_parent_creator(self, user_pk):
+        return self.creator_id == user_pk or self.lesson.is_parent_creator(user_pk)
 
 
 class Task(BaseUnit, models.Model):  # в одном занятии может быть несколько заданий
@@ -94,22 +103,28 @@ class Task(BaseUnit, models.Model):  # в одном занятии может �
     def answer_count(self):
         return self.homeworks.count()
 
+    def is_parent_creator(self, user_pk):
+        return self.creator_id == user_pk or self.step.is_parent_creator(user_pk)
+
 
 class HomeWork(BaseUnit, models.Model):
     name = models.CharField(max_length=1024, null=True, verbose_name='Название')
     creator = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='homeworks_by_creator',
                                 verbose_name='Автор')
     last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='homeworks_by_last_editor',
-                                    verbose_name='Последний редактор')
+                                    verbose_name='Проверяющий')
     time_create = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Время создания')
     time_edit = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Последнее редактирование')
     description = models.TextField(max_length=1024, default="Описание не заполнено", verbose_name='Описание',
                                    null=True, blank=True)
     task = models.ForeignKey(to=Task, on_delete=SET_NULL, null=True, related_name='homeworks', verbose_name='Задание')
-    mark = models.IntegerField(verbose_name='Оценка')
+    mark = models.IntegerField(verbose_name='Оценка', null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} пользователя {self.creator}"
+
+    def is_parent_creator(self, user_pk):
+        return self.creator_id == user_pk or self.task.is_parent_creator(user_pk)
 
 
 class RegOnCourse(models.Model):
