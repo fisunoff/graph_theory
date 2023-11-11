@@ -38,7 +38,7 @@ class TaskDetailView(DetailWithSingleTable):
         task_obj = Task.objects.get(pk=task)
         if not self.request.user.is_authenticated:
             return self.table_model.objects.none()
-        if self.request.user.profile == task_obj.creator:
+        if self.request.user.profile == task_obj.creator or self.request.user.is_superuser:
             return self.table_model.objects.filter(task_id=task)
         else:
             return self.table_model.objects.filter(task_id=task, creator=self.request.user.profile)
@@ -48,5 +48,7 @@ class TaskDetailView(DetailWithSingleTable):
         if self.request.user.is_authenticated:
             if self.request.user.profile in (self.object.creator, self.object.last_editor) \
                     or self.request.user.is_superuser:
-                kwargs['exclude'] = ()
+                kwargs['exclude'] = ('title', )
+            else:
+                kwargs['exclude'] = ('title_with_author', )
         return kwargs

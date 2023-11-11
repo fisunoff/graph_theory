@@ -68,10 +68,13 @@ class HomeWorkTable(tables.Table):
     details = tables.TemplateColumn('<a href="{% url \'homework-detail\' record.id %}">&#128203;</a>',
                                     orderable=False, verbose_name="", attrs={"tf": {"bgcolor": "red"}})
 
+    title = tables.Column(verbose_name="Решение", orderable=False)
+    title_with_author = tables.Column(verbose_name="Решение", orderable=False)
+
     class Meta:
         model = HomeWork
         template_name = "django_tables2/bootstrap5.html"
-        fields = ('details', 'name', 'mark')
+        fields = ('details', 'title', 'title_with_author', 'mark')
 
         row_attrs = {
             'style': lambda record: f"""background:{record.table_color}"""

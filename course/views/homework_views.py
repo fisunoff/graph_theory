@@ -10,7 +10,7 @@ class HomeworkCreateView(LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin,
     model = HomeWork
     template_name = 'base_create.html'
 
-    fields = ('name', 'description')
+    fields = ('description', )
     title = "Добавление решения"
 
     save_creator_only = True
@@ -58,4 +58,4 @@ class HomeworkUpdateView(SaveEditorMixin, LoginRequiredMixin, AddTitleFormMixin,
     title = 'Оценка решения'
     editing = True
 
-    fields = ('name', 'description', 'mark')
+    fields = ('description', 'mark')

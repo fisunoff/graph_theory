@@ -135,20 +135,29 @@ class Task(BaseUnit, models.Model):  # в одном занятии может �
 
 
 class HomeWork(BaseUnit, models.Model):
-    name = models.CharField(max_length=1024, null=True, verbose_name='Название')
+    name = models.CharField(max_length=1024, null=True, verbose_name='Название', blank=True)
     creator = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='homeworks_by_creator',
                                 verbose_name='Автор')
     last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='homeworks_by_last_editor',
                                     verbose_name='Проверяющий')
     time_create = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Время создания')
     time_edit = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Последнее редактирование')
-    description = models.TextField(max_length=1024, default="Описание не заполнено", verbose_name='Описание',
-                                   null=True, blank=True)
+    description = models.TextField(max_length=1024, verbose_name='Решение', null=True)
     task = models.ForeignKey(to=Task, on_delete=SET_NULL, null=True, related_name='homeworks', verbose_name='Задание')
     mark = models.IntegerField(verbose_name='Оценка', null=True, blank=True)
 
+    @property
+    def title(self):
+        if len(self.description) > 50:
+            return self.description[:50] + '...'
+        return self.description
+
+    @property
+    def title_with_author(self):
+        return f"{self.title} ({self.creator})"
+
     def __str__(self):
-        return f"{self.name} пользователя {self.creator}"
+        return self.title_with_author
 
     def get_absolute_url(self):
         return reverse_lazy('homework-detail', kwargs={'pk': self.pk})
