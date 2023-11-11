@@ -58,8 +58,8 @@ class TaskTable(tables.Table):
             if values:
                 max_value = max(values)
                 if max_value == record.max_mark:
-                    return mark_safe(f"<span style='color:green; font-weight: bold;'>{max_value}</span>")
-                return max_value
+                    return mark_safe(f"<span style='color:green; font-weight: bold;'>{max_value or '–'}</span>")
+                return max_value or '–'
             return "–"
         return "–"
 
