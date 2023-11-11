@@ -57,5 +57,5 @@ class HomeWorkTable(tables.Table):
         # }
 
         row_attrs = {
-            'style': lambda record: f"""background:{('success' if record.mark is None else 'green')}"""
+            'style': lambda record: f"""background:{record.table_color}"""
         }

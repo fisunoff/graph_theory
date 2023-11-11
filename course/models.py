@@ -56,6 +56,14 @@ class Lesson(BaseUnit, models.Model):
     def is_parent_creator(self, user_pk):
         return self.creator_id == user_pk
 
+    @property
+    def parent(self):
+        return self.course
+
+    @classmethod
+    def parent_class(cls):
+        return Course
+
 
 class Step(BaseUnit, models.Model):  # шаги занятия
     name = models.CharField(max_length=1024, null=True, verbose_name='Название')
@@ -77,7 +85,15 @@ class Step(BaseUnit, models.Model):  # шаги занятия
         return reverse_lazy('step-detail', kwargs={'pk': self.pk})
 
     def is_parent_creator(self, user_pk):
-        return self.creator_id == user_pk or self.lesson.is_parent_creator(user_pk)
+        return self.creator_id == user_pk or self.parent.is_parent_creator(user_pk)
+
+    @property
+    def parent(self):
+        return self.lesson
+
+    @classmethod
+    def parent_class(cls):
+        return Lesson
 
 
 class Task(BaseUnit, models.Model):  # в одном занятии может быть несколько заданий
@@ -104,7 +120,15 @@ class Task(BaseUnit, models.Model):  # в одном занятии может �
         return self.homeworks.count()
 
     def is_parent_creator(self, user_pk):
-        return self.creator_id == user_pk or self.step.is_parent_creator(user_pk)
+        return self.creator_id == user_pk or self.parent.is_parent_creator(user_pk)
+
+    @property
+    def parent(self):
+        return self.step
+
+    @classmethod
+    def parent_class(cls):
+        return Step
 
 
 class HomeWork(BaseUnit, models.Model):
@@ -124,7 +148,25 @@ class HomeWork(BaseUnit, models.Model):
         return f"{self.name} пользователя {self.creator}"
 
     def is_parent_creator(self, user_pk):
-        return self.creator_id == user_pk or self.task.is_parent_creator(user_pk)
+        return self.creator_id == user_pk or self.parent.is_parent_creator(user_pk)
+
+    @property
+    def table_color(self):
+        if self.mark == self.task.max_mark:
+            return 'green'
+        if self.mark is None:
+            return ''
+        if self.mark == 0:
+            return 'red'
+        return 'yellow'
+
+    @property
+    def parent(self):
+        return self.task
+
+    @classmethod
+    def parent_class(cls):
+        return Task
 
 
 class RegOnCourse(models.Model):
