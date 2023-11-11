@@ -1,9 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
 from course.models import HomeWork, Task
 from course.views.mixins import AddTitleFormMixin, DetailWithSingleTable, ProDetailView, SaveEditorMixin
+from extended_user.models import Profile
 
 
 class HomeworkCreateView(LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin, CreateView):
@@ -59,3 +61,20 @@ class HomeworkUpdateView(SaveEditorMixin, LoginRequiredMixin, AddTitleFormMixin,
     editing = True
 
     fields = ('description', 'mark')
+
+    def form_valid(self, form):
+        self.object = form.save()
+        user_profile = Profile.objects.get(id=self.request.user.profile.id)
+        if not self.save_creator_only:
+            self.object.last_editor = user_profile
+        if not self.object.creator:
+            self.object.creator = user_profile
+        if self.object.mark > self.object.task.max_mark:
+            form.add_error('mark', f'Оценка больше максимально возможной {self.object.mark}/{self.object.task.max_mark}')
+            return self.form_invalid(form)
+        elif self.object.mark < 0:
+            form.add_error('mark', 'Оценка не может быть меньше 0')
+            return self.form_invalid(form)
+
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
