@@ -1,4 +1,8 @@
+import itertools
+
 import django_tables2 as tables
+from django.utils.safestring import mark_safe
+
 from course.models import Course, Lesson, Step, Task, HomeWork
 
 
@@ -37,11 +41,27 @@ class TaskTable(tables.Table):
                                     orderable=False, verbose_name="")
 
     answer_count = tables.Column(orderable=False, verbose_name="Решения")
+    best = tables.Column(orderable=False, verbose_name="Лучшее решение", empty_values=())
 
     class Meta:
         model = Task
         template_name = "django_tables2/bootstrap.html"
-        fields = ('details', 'name', 'weight', 'answer_count')
+        fields = ('details', 'name', 'weight', 'max_mark', 'answer_count', 'best')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.counter = itertools.count()
+
+    def render_best(self, value, record):
+        if self.request.user.is_authenticated:
+            values = record.homeworks.filter(creator_id=self.request.user.profile.id).values_list('mark', flat=True)
+            if values:
+                max_value = max(values)
+                if max_value == record.max_mark:
+                    return mark_safe(f"<span style='color:green; font-weight: bold;'>{max_value}</span>")
+                return max_value
+            return "–"
+        return "–"
 
 
 class HomeWorkTable(tables.Table):
@@ -52,9 +72,6 @@ class HomeWorkTable(tables.Table):
         model = HomeWork
         template_name = "django_tables2/bootstrap5.html"
         fields = ('details', 'name', 'mark')
-        # row_attrs = {
-        #     'background-color': lambda record: '#f2dede' if record.mark is None else '008000'
-        # }
 
         row_attrs = {
             'style': lambda record: f"""background:{record.table_color}"""

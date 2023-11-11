@@ -20,9 +20,9 @@
                     <dt class="col-sm-3">Описание</dt>
                     <dd class="col-sm-9">{{ object.description|default_if_none:"&#10060" }}</dd>
                 </dl>
-                <a href="{% url 'lesson-detail' object.lesson.pk %}" class="btn btn-success">К занятию</a>
+                <a href="{% url 'lesson-detail' object.lesson.pk %}" class="btn btn-primary">К занятию</a>
                 {% if can_edit %}
-                    <a href="{% url 'task-create' object.pk %}" class="btn btn-primary">Добавить задание</a>
+                    <a href="{% url 'task-create' object.pk %}" class="btn btn-success">Добавить задание</a>
                 {% endif %}
             </div>
         {% if object.graph %}

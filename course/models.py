@@ -115,6 +115,9 @@ class Task(BaseUnit, models.Model):  # в одном занятии может �
     def __str__(self):
         return self.name or "Нет названия"
 
+    def get_absolute_url(self):
+        return reverse_lazy('task-detail', kwargs={'pk': self.pk})
+
     @property
     def answer_count(self):
         return self.homeworks.count()
@@ -146,6 +149,9 @@ class HomeWork(BaseUnit, models.Model):
 
     def __str__(self):
         return f"{self.name} пользователя {self.creator}"
+
+    def get_absolute_url(self):
+        return reverse_lazy('homework-detail', kwargs={'pk': self.pk})
 
     def is_parent_creator(self, user_pk):
         return self.creator_id == user_pk or self.parent.is_parent_creator(user_pk)

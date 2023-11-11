@@ -1,7 +1,7 @@
 from django.urls import path
 
 from course.views.course_views import CourseListView, CourseCreateView, CourseDetailView, CourseUpdateView
-from course.views.homework_views import HomeworkCreateView, HomeworkDetailView
+from course.views.homework_views import HomeworkCreateView, HomeworkDetailView, HomeworkUpdateView
 from course.views.lesson_views import LessonCreateView, LessonDetailView, LessonUpdateView
 from course.views.step_views import StepCreateView, StepDetailView
 from course.views.task_views import TaskCreateView, TaskDetailView
@@ -20,4 +20,5 @@ urlpatterns = [
     path('task/<int:pk>/', TaskDetailView.as_view(), name='task-detail'),
     path('homework/create/<int:from>/', HomeworkCreateView.as_view(), name='homework-create'),
     path('homework/<int:pk>/', HomeworkDetailView.as_view(), name='homework-detail'),
+    path('homework/<int:pk>/update', HomeworkUpdateView.as_view(), name='homework-update'),
 ]

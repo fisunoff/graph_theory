@@ -19,7 +19,7 @@
                     {% if object.last_editor_id %}
                     <dt class="col-sm-3">Проверил</dt>
                         <dd class="col-sm-9">
-                            <a href="{% url 'profile-detail' pk=object.creator_id %}">{{ object.creator|default_if_none:"&#10060" }}</a>
+                            <a href="{% url 'profile-detail' pk=object.last_editor_id %}">{{ object.last_editor|default_if_none:"&#10060" }}</a>
                         </dd>
                     {% endif %}
                     <dt class="col-sm-3">Оценка</dt>
@@ -27,10 +27,10 @@
                     <dt class="col-sm-3">Решение</dt>
                     <dd class="col-sm-9">{{ object.description|default_if_none:"&#10060" }}</dd>
                 </dl>
-                <a href="{% url 'task-detail' object.task.pk %}" class="btn btn-success">К заданию</a>
-{#                {% if can_edit %}#}
-{#                    <a href="{% url 'task-create' object.pk %}" class="btn btn-primary">Добавить задание</a>#}
-{#                {% endif %}#}
+                <a href="{% url 'task-detail' object.task.pk %}" class="btn btn-primary">К заданию</a>
+                {% if can_edit %}
+                    <a href="{% url 'homework-update' object.pk %}" class="btn btn-warning">Оценить</a>
+                {% endif %}
             </div>
         </div>
     </div>

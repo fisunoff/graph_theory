@@ -11,7 +11,7 @@ class HomeworkCreateView(LoginRequiredMixin, SaveEditorMixin, AddTitleFormMixin,
     template_name = 'base_create.html'
 
     fields = ('name', 'description')
-    title = "Добавление задания"
+    title = "Добавление решения"
 
     save_creator_only = True
 
@@ -42,3 +42,20 @@ class HomeworkDetailView(ProDetailView):
     model = HomeWork
     template_name = 'homework/detail.html'
 
+    def get_context_data(self, **kwargs):
+        kwargs = super().get_context_data(**kwargs)
+        can_edit = False
+        if self.request.user.is_authenticated:
+            can_edit = self.request.user.profile.pk == self.object.is_parent_creator or self.request.user.is_superuser
+        kwargs['can_edit'] = can_edit
+        return kwargs
+
+
+class HomeworkUpdateView(SaveEditorMixin, LoginRequiredMixin, AddTitleFormMixin, UpdateView):
+    model = HomeWork
+    template_name = 'base_create.html'
+
+    title = 'Оценка решения'
+    editing = True
+
+    fields = ('name', 'description', 'mark')

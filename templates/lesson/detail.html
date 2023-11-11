@@ -18,11 +18,11 @@
                     </dd>
                     <dt class="col-sm-3">Описание</dt>
                     <dd class="col-sm-9">{{ lesson.description|default_if_none:"&#10060" }}</dd>
+                    <a href="{% url 'course-detail' lesson.course.pk %}" class="btn btn-primary">К курсу</a>
                     {% if can_edit %}
-                        <a href="{% url 'lesson-update' lesson.pk %}" class="btn btn-primary">Редактировать</a>
-                        <a href="{% url 'step-create' lesson.pk %}" class="btn btn-primary">Добавить шаг</a>
+                        <a href="{% url 'lesson-update' lesson.pk %}" class="btn btn-success">Редактировать</a>
+                        <a href="{% url 'step-create' lesson.pk %}" class="btn btn-success">Добавить шаг</a>
                     {% endif %}
-                    <a href="{% url 'course-detail' lesson.course.pk %}" class="btn btn-success">К курсу</a>
                 </dl>
             </div>
         </div>
