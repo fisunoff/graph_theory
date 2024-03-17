@@ -30,6 +30,7 @@ urlpatterns = [
     path('reg/', SignUp.as_view(), name='reg'),
     path('course/', include('course.urls')),
     path('builder/', include('builder.urls')),
+    path('sets/', include('sets.urls')),
     path('martor/', include('martor.urls')),
     path("select2/", include("django_select2.urls")),
     path('accounts/profile/', ProfileDetailView.as_view(), name='self-profile-detail')

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block container %}
+
+<h1>Писать здесь</h1>
+
+{% endblock %}
+
+{% block custom_js %}
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+    axios.defaults.xsrfHeaderName = "X-CSRFToken"
+    axios.defaults.xsrfCookieName = 'csrftoken'
+    axios({
+        method: "post",
+        url: "/sets/calculate/",
+        data: {
+            "expression": "A & B | C",
+            "A": [1, 2, 3],
+            "B": [2, 3, 4],
+            "C": [7, 8, 9]
+            }
+    }).then(function (response) {
+        console.log(response.data)
+    });
+    </script>
+{% endblock %}

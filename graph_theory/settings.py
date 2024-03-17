@@ -40,10 +40,12 @@ INSTALLED_APPS = [
     'django_tables2',
     'martor',
     'django_select2',
+    'rest_framework',
 
     'extended_user',
     'course',
     'builder',
+    'sets',
 ]
 
 MIDDLEWARE = [
