@@ -51,7 +51,9 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'course-list' %}">Курсы</a>
-
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'sets-main' %}">Множества</a>
                     </li>
                     <li class="nav-item active">
                         {% if user.is_authenticated %}
