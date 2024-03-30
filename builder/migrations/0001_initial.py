@@ -2,7 +2,6 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import django.utils.datetime_safe
 
 
 class Migration(migrations.Migration):
@@ -19,7 +18,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=1024, null=True)),
-                ('time_create', models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now, verbose_name='Время создания')),
+                ('time_create', models.DateTimeField(blank=True, verbose_name='Время создания')),
                 ('initial_data', models.TextField()),
                 ('graph_html', models.FileField(upload_to='')),
                 ('creator', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='graphs_by_creator', to='extended_user.profile')),

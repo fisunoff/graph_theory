@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import django.utils.datetime_safe
+
 import martor.models
 
 
@@ -58,7 +58,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='course',
             name='time_edit',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now, verbose_name='Последнее редактирование'),
+            field=models.DateTimeField(blank=True, verbose_name='Последнее редактирование'),
         ),
         migrations.AlterField(
             model_name='homework',
@@ -93,12 +93,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='homework',
             name='time_create',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now, verbose_name='Время создания'),
+            field=models.DateTimeField(blank=True, verbose_name='Время создания'),
         ),
         migrations.AlterField(
             model_name='homework',
             name='time_edit',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now, verbose_name='Последнее редактирование'),
+            field=models.DateTimeField(blank=True, verbose_name='Последнее редактирование'),
         ),
         migrations.AlterField(
             model_name='lesson',
@@ -128,12 +128,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='lesson',
             name='time_create',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now, verbose_name='Время создания'),
+            field=models.DateTimeField(blank=True, verbose_name='Время создания'),
         ),
         migrations.AlterField(
             model_name='lesson',
             name='time_edit',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now, verbose_name='Последнее редактирование'),
+            field=models.DateTimeField(blank=True, verbose_name='Последнее редактирование'),
         ),
         migrations.AlterField(
             model_name='step',
@@ -168,12 +168,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='step',
             name='time_create',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now, verbose_name='Время создания'),
+            field=models.DateTimeField(blank=True, verbose_name='Время создания'),
         ),
         migrations.AlterField(
             model_name='step',
             name='time_edit',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now, verbose_name='Последнее редактирование'),
+            field=models.DateTimeField(blank=True, verbose_name='Последнее редактирование'),
         ),
         migrations.AlterField(
             model_name='task',
@@ -208,12 +208,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='task',
             name='time_create',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now, verbose_name='Время создания'),
+            field=models.DateTimeField(blank=True, verbose_name='Время создания'),
         ),
         migrations.AlterField(
             model_name='task',
             name='time_edit',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now, verbose_name='Последнее редактирование'),
+            field=models.DateTimeField(blank=True, verbose_name='Последнее редактирование'),
         ),
         migrations.AlterField(
             model_name='task',

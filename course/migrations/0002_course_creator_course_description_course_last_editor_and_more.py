@@ -2,7 +2,6 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import django.utils.datetime_safe
 
 
 class Migration(migrations.Migration):
@@ -36,12 +35,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='course',
             name='time_create',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now),
+            field=models.DateTimeField(blank=True),
         ),
         migrations.AddField(
             model_name='course',
             name='time_edit',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now),
+            field=models.DateTimeField(blank=True),
         ),
         migrations.AddField(
             model_name='homework',
@@ -66,12 +65,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='homework',
             name='time_create',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now),
+            field=models.DateTimeField(blank=True),
         ),
         migrations.AddField(
             model_name='homework',
             name='time_edit',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now),
+            field=models.DateTimeField(blank=True),
         ),
         migrations.AddField(
             model_name='lesson',
@@ -96,12 +95,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='lesson',
             name='time_create',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now),
+            field=models.DateTimeField(blank=True),
         ),
         migrations.AddField(
             model_name='lesson',
             name='time_edit',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now),
+            field=models.DateTimeField(blank=True),
         ),
         migrations.AddField(
             model_name='step',
@@ -126,12 +125,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='step',
             name='time_create',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now),
+            field=models.DateTimeField(blank=True),
         ),
         migrations.AddField(
             model_name='step',
             name='time_edit',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now),
+            field=models.DateTimeField(blank=True),
         ),
         migrations.AddField(
             model_name='task',
@@ -156,12 +155,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='task',
             name='time_create',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now),
+            field=models.DateTimeField(blank=True),
         ),
         migrations.AddField(
             model_name='task',
             name='time_edit',
-            field=models.DateTimeField(blank=True, default=django.utils.datetime_safe.datetime.now),
+            field=models.DateTimeField(blank=True),
         ),
         migrations.AlterField(
             model_name='course',
