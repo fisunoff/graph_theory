@@ -2,7 +2,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models import SET_NULL, CASCADE
 from django.urls import reverse_lazy
-from django.utils.datetime_safe import datetime
+
 from martor.models import MartorField
 
 from builder.models import Graph
@@ -19,8 +19,8 @@ class Course(BaseUnit, models.Model):
                                 verbose_name='Автор')
     last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='courses_by_last_editor',
                                     verbose_name='Последний редактор')
-    time_create = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Время создания')
-    time_edit = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Последнее редактирование')
+    time_create = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Время создания')
+    time_edit = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Последнее редактирование')
     description = models.TextField(max_length=4096, default="Описание не заполнено", verbose_name='Описание')
     editors = models.ManyToManyField(to=Profile, verbose_name='Редакторы')
     private = models.BooleanField(default=False, verbose_name='С ограниченным доступом')
@@ -42,8 +42,8 @@ class Lesson(BaseUnit, models.Model):
                                 verbose_name='Автор')
     last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='lessons_by_last_editor',
                                     verbose_name='Последний редактор')
-    time_create = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Время создания')
-    time_edit = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Последнее редактирование')
+    time_create = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Время создания')
+    time_edit = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Последнее редактирование')
     description = models.TextField(max_length=4096, default="Описание не заполнено", verbose_name='Описание')
     course = models.ForeignKey(to=Course, on_delete=CASCADE, related_name='lessons', verbose_name='Курс')
 
@@ -71,8 +71,8 @@ class Step(BaseUnit, models.Model):  # шаги занятия
                                 verbose_name='Автор')
     last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='steps_by_last_editor',
                                     verbose_name='Последний редактор')
-    time_create = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Время создания')
-    time_edit = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Последнее редактирование')
+    time_create = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Время создания')
+    time_edit = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Последнее редактирование')
     description = models.TextField(max_length=4096, default="Описание не заполнено", verbose_name='Описание')
     lesson = models.ForeignKey(to=Lesson, on_delete=CASCADE, related_name='steps', verbose_name='Занятие')
     data = MartorField(verbose_name='Материалы шага')
@@ -102,8 +102,8 @@ class Task(BaseUnit, models.Model):  # в одном занятии может �
                                 verbose_name='Автор')
     last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='tasks_by_last_editor',
                                     verbose_name='Последний редактор')
-    time_create = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Время создания')
-    time_edit = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Последнее редактирование')
+    time_create = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Время создания')
+    time_edit = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Последнее редактирование')
     description = models.TextField(max_length=4096, default="Описание не заполнено", verbose_name='Описание')
     step = models.ForeignKey(to=Step, on_delete=CASCADE, related_name='tasks', verbose_name='Шаг')
     max_mark = models.IntegerField(verbose_name='Максимальная оценка')
@@ -140,8 +140,8 @@ class HomeWork(BaseUnit, models.Model):
                                 verbose_name='Автор')
     last_editor = models.ForeignKey(to=Profile, on_delete=SET_NULL, null=True, related_name='homeworks_by_last_editor',
                                     verbose_name='Проверяющий')
-    time_create = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Время создания')
-    time_edit = models.DateTimeField(default=datetime.now, blank=True, verbose_name='Последнее редактирование')
+    time_create = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Время создания')
+    time_edit = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Последнее редактирование')
     description = models.TextField(max_length=1024, verbose_name='Решение', null=True)
     task = models.ForeignKey(to=Task, on_delete=SET_NULL, null=True, related_name='homeworks', verbose_name='Задание')
     mark = models.IntegerField(verbose_name='Оценка', null=True, blank=True)
