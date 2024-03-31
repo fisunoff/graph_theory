@@ -21,7 +21,10 @@ class CalcView(views.APIView):
     def post(self, request):
         data = request.data
         try:
-            result = solve(data['expression'], data['A'], data['B'], data['C'])
+            a = [i.strip() for i in data['A'].split(',')]
+            b = [i.strip() for i in data['B'].split(',')]
+            c = [i.strip() for i in data['C'].split(',')]
+            result = solve(data['expression'], a, b, c)
             if result[0] == 'error':
                 answer = {
                     'answer': None,
@@ -29,7 +32,7 @@ class CalcView(views.APIView):
                 }
             else:
                 answer = {
-                    'answer': result[1],
+                    'answer': ', '.join(str(i) for i in result[1]),
                     'errors': [],
                 }
             return Response(answer)

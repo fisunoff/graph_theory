@@ -2,9 +2,9 @@
 {% block container %}
 
 <h1>Операции над множествами</h1>
-<form method="post">
+<div class="form">
+    <form method="post" name="form_data">
     {% csrf_token %}
-    <div class="form">
         <div class="input-box">
             <!--  <label>Множество A</label>  -->
             <input type="text" id="A" name="A" placeholder="Множество A">
@@ -21,8 +21,10 @@
             <!--  <label>Множество A</label>  -->
             <input type="text" id="expression" name="expression" placeholder="Введите выражение">
         </div>
+    </form>
+
         <div class="btn">
-            <button id="btn" name="btn" type="submit">Вычислить</button>
+            <button id="btn" name="btn" onclick="calc()">Вычислить</button>
         </div>
 
         <div class="output-box out">
@@ -30,9 +32,7 @@
             <input type="text" id="result" name="result" placeholder="Результат" readonly>
         </div>
 
-    </div>
-</form>
-
+</div>
 {% endblock %}
 
 {% block custom_js %}
@@ -118,19 +118,23 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-    axios.defaults.xsrfHeaderName = "X-CSRFToken"
-    axios.defaults.xsrfCookieName = 'csrftoken'
-    axios({
-        method: "post",
-        url: "/sets/calculate/",
-        data: {
-            "expression": "A & B | C",
-            "A": [1, 2, 3],
-            "B": [2, 3, 4],
-            "C": [7, 8, 9]
+    function calc() {
+        axios.defaults.xsrfHeaderName = "X-CSRFToken";
+        axios.defaults.xsrfCookieName = 'csrftoken';
+        let form = document.forms.form_data;
+        axios({
+            method: "post",
+            url: "/sets/calculate/",
+            data: {
+                "A": form.A.value,
+                "B": form.B.value,
+                "C": form.C.value,
+                "expression": form.expression.value
             }
-    }).then(function (response) {
-        console.log(response.data)
-    });
+        }).then(function (response) {
+            const ans = document.getElementById('result');
+            ans.value = response.data['answer'];
+        });
+    }
     </script>
 {% endblock %}
