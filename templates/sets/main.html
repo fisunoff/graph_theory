@@ -1,11 +1,121 @@
 {% extends "base.html" %}
 {% block container %}
 
-<h1>Писать здесь</h1>
+<h1>Операции над множествами</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="form">
+        <div class="input-box">
+            <!--  <label>Множество A</label>  -->
+            <input type="text" id="A" name="A" placeholder="Множество A">
+        </div>
+        <div class="input-box">
+            <!--  <label>Множество B</label>  -->
+            <input type="text" id="B" name="B" placeholder="Множество B">
+        </div>
+        <div class="input-box">
+            <!--  <label>Множество C</label>  -->
+            <input type="text" id="C" name="C" placeholder="Множество C">
+        </div>
+        <div class="input-box">
+            <!--  <label>Множество A</label>  -->
+            <input type="text" id="expression" name="expression" placeholder="Введите выражение">
+        </div>
+        <div class="btn">
+            <button id="btn" name="btn" type="submit">Вычислить</button>
+        </div>
+
+        <div class="output-box out">
+            <!--  <label>Результат</label>  -->
+            <input type="text" id="result" name="result" placeholder="Результат" readonly>
+        </div>
+
+    </div>
+</form>
 
 {% endblock %}
 
 {% block custom_js %}
+    <style>
+        body {
+            color: white;
+            background: #012a36;
+        }
+        .form {
+            padding: 20px 20px;
+            color: white;
+            background: #7e52a0;
+            width: 500px;
+            border-radius: 20px;
+        }
+        .form .input-box {
+            width: 100%;
+            height: 50px;
+            margin: 30px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .input-box input {
+            width: 70%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            border: 3px solid #d295bf;
+            border-radius: 20px;
+            color: white;
+            font-size: 18px;
+            padding: 20px 20px 20px 20px;
+        }
+        .input-box input::placeholder {
+            color: white;
+        }
+        .input-box label {
+            font-size: 18px;
+        }
+        .form .btn {
+            margin-bottom: 30px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn button {
+            width: 40%;
+            height: 45px;
+            background: #d295bf;
+            border: none;
+            outline: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .form .output-box {
+            width: 100%;
+            height: 50px;
+            margin: 30px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .output-box input {
+            width: 70%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            border-bottom: 3px solid #d295bf;
+            color: white;
+            font-size: 18px;
+            padding: 20px 20px 20px 20px;
+        }
+        .output-box input::placeholder {
+            color: #d295bf;
+        }
+
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
     axios.defaults.xsrfHeaderName = "X-CSRFToken"
