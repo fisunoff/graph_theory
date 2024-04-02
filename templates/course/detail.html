@@ -19,8 +19,12 @@
                     <dt class="col-sm-3">Описание</dt>
                     <dd class="col-sm-9">{{ course.description|default_if_none:"&#10060" }}</dd>
                     {% if can_edit %}
-                        <a href="{% url 'course-update' course.pk %}" class="btn btn-primary">Редактировать</a>
-                        <a href="{% url 'lesson-create' course.pk %}" class="btn btn-primary">Добавить урок</a>
+                        <div class="btn">
+                            <a href="{% url 'course-update' course.pk %}" class="button">Редактировать</a>
+                        </div>
+                        <div class="btn">
+                            <a href="{% url 'lesson-create' course.pk %}" class="button">Добавить урок</a>
+                        </div>
                     {% endif %}
                 </dl>
             </div>
@@ -29,5 +33,35 @@
         <h1>Все уроки:</h1>
         {% render_table table %}
     </div>
+
+{% endblock %}
+{% block custom_js %}
+    <style>
+        .btn {
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn .button {
+            width: 200px;
+            height: 45px;
+            background: #d295bf;
+            border: none;
+            outline: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        a {
+            outline: none;
+            text-decoration: none;
+        }
+    </style>
 
 {% endblock %}

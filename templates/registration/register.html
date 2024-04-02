@@ -1,25 +1,75 @@
 {% extends "base.html" %}
 
 {% block container %}
-    <form method="post">
+    <h1>Регистрация</h1>
+    <form method="post" class="form">
         {% csrf_token %}
-        <table class="table table-hover">
-            <tr>
-                <td>{{ form.username.label_tag }}</td>
-                <td>{{ form.username }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.password1.label_tag }}</td>
-                <td>{{ form.password1 }}</td>
-            </tr>
-
-            <tr>
-                <td>{{ form.password2.label_tag }}</td>
-                <td>{{ form.password2 }}</td>
-            </tr>
-        </table>
-
-        <input type="submit" value="Регистрация" class="btn btn-primary"/>
-        <input type="hidden" name="next" value="{{ next }}"/>
+        <div class="row mb-3">
+            <div class="input-box">
+                <input type="text" name="username" placeholder="Имя">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="input-box">
+                <input type="password" name="password1" placeholder="Пароль">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="input-box">
+                <input type="password" name="password2" placeholder="Повторите пароль">
+            </div>
+        </div>
+        <div class="btn">
+                <button type="submit" class="btn">Регистрация</button>
+        </div>
     </form>
+{% endblock %}
+{% block custom_js %}
+    <style>
+        .form {
+            padding: 20px 20px;
+            color: white;
+            background: #7e52a0;
+            width: 500px;
+            border-radius: 20px;
+        }
+        .form input {
+            width: 70%;
+            height: 70%;
+            background: transparent;
+            border: none;
+            outline: none;
+            border: 3px solid #d295bf;
+            border-radius: 20px;
+            color: white;
+            padding: 20px 20px 20px 20px;
+            font-size: 18px;
+        }
+        .input-box input::placeholder {
+            color: #d295bf;
+        }
+        .input-box label {
+            font-size: 16px;
+        }
+        .form .btn {
+            padding: 5px 0 5px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn button {
+            width: 40%;
+            height: 45px;
+            background: #d295bf;
+            border: none;
+            outline: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .form-text {
+            color: #d295bf;
+        }
+    </style>
 {% endblock %}

@@ -3,7 +3,40 @@
 {% block container %}
     <div class="container mt-4">
         {% load render_table from django_tables2 %}
-        <h1>{{ title }}<a href="{% url 'graph-create' %}" class="btn btn-primary btn-lg">Создать</a></h1>
+        <div class="btn">
+            <a href="{% url 'graph-create' %}" class="button">Создать</a>
+        </div>
         {% render_table table %}
     </div>
+{% endblock %}
+{% block custom_js %}
+    <style>
+        .btn {
+            margin-bottom: 30px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn .button {
+            width: 145px;
+            height: 45px;
+            background: #d295bf;
+            border: none;
+            outline: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        a {
+            outline: none;
+            text-decoration: none;
+        }
+    </style>
+
 {% endblock %}

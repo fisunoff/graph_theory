@@ -1,40 +1,102 @@
 {% include "base.html" with page_title=profile %}
 {% block container %}
     <div class="container mt-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Анкета пользователя</h5>
-            </div>
-            <div class="card-body">
-                <dl class="row">
-                    <dt class="col-sm-3">ФИО</dt>
-                    <dd class="col-sm-9">{{ profile.surname }} {{ profile.name }} {{ profile.patronymic|default_if_none:"" }}</dd>
-                    <dt class="col-sm-3">О себе</dt>
-                    <dd class="col-sm-9">{{ profile.bio|default_if_none:"&#10060" }}</dd>
-                    <dt class="col-sm-3">Сотрудник</dt>
-                    {% if is_profile_staff %}
-                        <dd class="col-sm-9">Да</dd>
-                    {% else %}
-                        <dd class="col-sm-9">Нет</dd>
-                    {% endif %}
+        <h1>Анкета пользователя</h1>
+        <div class="container-card text-center">
+            <div class="row">
+                <div class="col-6 col-sm-3">
                     {% if profile.photo %}
-                        <dt class="col-sm-3">Фото</dt>
-                        <dd class="col-sm-9">
-                            <img src="{{ profile.photo.url }}" alt="Фото не загружено" height="200">
-                        </dd>
+                        <img src="{{ profile.photo.url }}" alt="Фото не загружено"
+                                                     class="img-fluid">
                     {% endif %}
-                    {% if profile.id == user.profile.id or user.is_superuser %}
-                        <a href="{% url 'profile-update' profile.id %}" class="btn btn-primary">Редактировать</a>
+                </div>
+                <div class="col-6 col-md-4">
+                    <div class="output-box">
+                        <input type="text" class="about-p" placeholder="{{ profile.surname }}" readonly>
+                        <input type="text" class="about-p" placeholder="{{ profile.name }}" readonly>
+                        <input type="text" class="about-p" placeholder="{{ profile.patronymic|default_if_none:"" }}" readonly>
+                    </div>
+                    {% if is_profile_staff %}
+                        <p class="text-p">Сотрудник</p>
                     {% else %}
-                        <a class="btn btn-primary disabled">Редактировать</a>
+                        <p class="text-p">Пользователь</p>
+                    {% endif %}
+                    <p class="text">{{ profile.bio|default_if_none:"&#10060" }}</p>
+                </div>
+                 <div class="col-6 col-md-4">
+                    {% if profile.id == user.profile.id or user.is_superuser %}
+                        <div class="btn"> <a href="{% url 'profile-update' profile.id %}" class="button">Редактировать</a></div>
+                    {% else %}
+                        <div class="btn"> <a href="{% url 'profile-update' profile.id %}" class="button">Редактировать</a></div>
                     {% endif %}
                     {% if profile.id == user.profile.id %}
-                        <a href="{% url 'logout' %}" class="btn btn-danger">Выйти</a>
-                        <a href="{% url 'password_change' %}" class="btn btn-warning">Смена пароля</a>
+                        <div class="btn"><a href="{% url 'password_change' %}" class="button ">Смена пароля</a></div>
+                        <div class="btn"><a href="{% url 'logout' %}" class="button">Выйти</a></div>
                     {% endif %}
-                </dl>
+                </div>
             </div>
         </div>
-    </div>
 
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+    <style>
+        .container-card {
+            padding: 20px 20px;
+            color: white;
+            background: #7e52a0;
+            width: 1000px;
+            border-radius: 20px;
+        }
+        .img-fluid {
+            border: 5px solid #d295bf;
+        }
+        .output-box input {
+            width: 70%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            border-bottom: 3px solid #d295bf;
+            font-size: 18px;
+        }
+        .output-box input::placeholder {
+            color: white;
+        }
+        .about-p {
+            padding-top: 10px;
+        }
+        .text-p {
+            padding-top: 15px;
+            font-size: 18px;
+            color: #d295bf;
+        }
+        .btn {
+            margin-bottom: 30px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn .button {
+            width: 60%;
+            height: 45px;
+            background: #d295bf;
+            border: none;
+            outline: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        a {
+            outline: none;
+            text-decoration: none;
+        }
+    </style>
 {% endblock %}

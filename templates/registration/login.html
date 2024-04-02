@@ -1,11 +1,8 @@
 {% extends "base.html" %}
 
 {% block container %}
+    <h1>Вход в аккаунт</h1>
     <div class="container mt-4">
-        {% if form.errors %}
-          <p>Пара логин/пароль не подходит. Пожалуйста, попробуйте снова</p>
-        {% endif %}
-
         {% if next %}
           {% if user.is_authenticated %}
             <p>Недостаточно прав для доступа к этой странице.
@@ -15,25 +12,73 @@
           {% endif %}
         {% endif %}
 
-        <form method="post" action="{% url 'login' %}">
+        <form method="post" action="{% url 'login' %}" class="form">
         {% csrf_token %}
-            <div class="mb-3 row">
-                <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" name="username">
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-                <div class="col-sm-10">
-                  <input type="password" class="form-control" name="password">
-                </div>
+          <div class="row mb-3">
+            <div class="input-box">
+                <input type="text" name="username" placeholder="Имя">
             </div>
-
-        <input type="submit" value="Войти" class="btn btn-primary"/>
-        <input type="hidden" name="next" value="{{ next }}" />
+          </div>
+          <div class="row mb-3">
+            <div class="input-box">
+                <input type="password" name="password" placeholder="Пароль">
+            </div>
+          </div>
+          <div class="btn">
+                <button type="submit" class="btn">Вход</button>
+          </div>
+          {% if form.errors %}
+            <div id="emailHelp" class="form-text">Пара логин/пароль не подходит. Пожалуйста, попробуйте снова</div>
+          {% endif %}
         </form>
     </div>
-
-
+{% endblock %}
+{% block custom_js %}
+    <style>
+        .form {
+            padding: 20px 20px;
+            color: white;
+            background: #7e52a0;
+            width: 500px;
+            border-radius: 20px;
+        }
+        .form input {
+            width: 70%;
+            height: 70%;
+            background: transparent;
+            border: none;
+            outline: none;
+            border: 3px solid #d295bf;
+            border-radius: 20px;
+            color: white;
+            padding: 20px 20px 20px 20px;
+            font-size: 18px;
+        }
+        .input-box input::placeholder {
+            color: #d295bf;
+        }
+        .input-box label {
+            font-size: 16px;
+        }
+        .form .btn {
+            padding: 5px 0 5px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn button {
+            width: 40%;
+            height: 45px;
+            background: #d295bf;
+            border: none;
+            outline: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .form-text {
+            color: #d295bf;
+        }
+    </style>
 {% endblock %}
