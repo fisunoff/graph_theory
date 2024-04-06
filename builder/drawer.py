@@ -54,6 +54,6 @@ def draw(n: int, data: list[list], directed=False, size: int = 30, font_size: in
     c = net.generate_html()
     filename = DEFAULT_FILENAME
     f = open(filename, 'w')
-    c = c.replace('style="width: 100%"', '')  # ширину задавать не надо
+    c = c.replace('style="width: 100%"', 'style="align-items: center"')  # ширину задавать не надо
     f.write(c)
     return len(nodes)

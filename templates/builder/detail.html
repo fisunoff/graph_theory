@@ -2,6 +2,11 @@
 
 {% block head %}
     <link rel="import" href="http://127.0.0.1:8000/media/list.html">
+    <style>
+    body{
+        background: #012a36;
+    }
+    </style>
 {% endblock %}
 
 {% block container %}
@@ -23,7 +28,9 @@
                 </dl>
             </div>
         </div>
-        {% include object.get_absolute_file_upload_url %}
+        <div style="align-items: center">
+            {% include object.get_absolute_file_upload_url %}
+        </div>
     </div>
 
 {% endblock %}
